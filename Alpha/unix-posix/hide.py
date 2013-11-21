@@ -53,19 +53,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         f.open(QFile.ReadOnly)
         f.close()
         pro = loader.load(f, self)
+        pro.lbl2_2.hide()
+        pro.instL.hide()
         if self.rb1.isChecked():
             pro.lbl2.hide()
-            pro.lbl2_2.hide()
             pro.lbl3.hide()
             pro.classL.hide()
             pro.wtBox.hide()
         elif self.rb2.isChecked():
             pro.lbl3.hide()
             pro.wtBox.hide()
+            pro.lbl2_2.show()
+            pro.instL.show()
         elif self.rb3.isChecked():
             pro.lbl2.hide()
             pro.classL.hide()
             
+        pro.adjustSize()
         def set_dir():
             opt = QFileDialog.DontResolveSymlinks | QFileDialog.ShowDirsOnly
             directory = QFileDialog.getExistingDirectory(pro,
@@ -123,14 +127,26 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 '\n\nBilgi: {}'.format(inf))
                 return         
             
-            uname = getuser()
+            u = getuser() # user name
+            c = pro.classL.text() # class name
+            i = pro.instL.text() # Instantiation
+            w = pro.wtBox.currentText() # window type
             file = dir + '/' + pro.sourceL.text()+'.py'
             with open(file, 'w', encoding = 'utf-8') as f:
                 if self.rb1.isChecked():
-                    f.write(codes.python_script.format(uname))
-                    pro.close()
+                    code = codes.python.format(u)
+                elif self.rb2.isChecked() and i == '':
+                    code = codes.python_class.format(u, c)
+                elif self.rb2.isChecked():
+                    code = codes.python_class_inst.format(u, c, i, i)
+                elif self.rb3.isChecked():
+                    code = codes.pyside.format(u, w)
                 else:
-                    print('...........')
+                    code = codes.pyside_class.format(u, c, w, c, c)
+                    
+                f.write(code)
+            
+            pro.close()
             
         
         pro.dirL.textChanged.connect(check_state)

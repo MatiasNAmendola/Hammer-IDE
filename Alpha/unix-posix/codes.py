@@ -1,7 +1,7 @@
 __author__ = 'Muharrem Tayyip Yel'
 __version__ = 0.1
 
-python_script = """#!/usr/bin/env python3
+python = """#!/usr/bin/env python3
 
 __author__ = "{}"
 
@@ -12,8 +12,19 @@ python_class = """#!/usr/bin/env python3
 __author__ = "{}"
 __version__ = 0.1
 
-class {}:
+class {}(object):
     def __init__(self):
+        pass
+"""
+
+python_class_inst = """#!/usr/bin/env python3
+
+__author__ = "{}"
+__version__ = 0.1
+
+class {}({}):
+    def __init__(self):
+        {}.__init__(self)
         pass
 """
 
@@ -43,6 +54,14 @@ import sys
 
 from PySide import QtGui
 
-class {}:
+class {}(QtGui.{}):
+    def __init__(self, parent=None):
+        super({}, self).__init__(parent)
+        pass
+        
+if __name__ == '__main__':
+    app = QtGui.QApplication(sys.argv)
+    window = {}()
+    window.show()
+    sys.exit(app.exec_())
 """
-# more..
