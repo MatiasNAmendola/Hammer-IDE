@@ -193,8 +193,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.trw.setItemExpanded(item, True)
     
     def open_project_dialog(self):
+        un = getuser() # user name
         options = QFileDialog.Options()
-        file = QFileDialog.getOpenFileName(self,'Proje Aç',self.label.text(),
+        file = QFileDialog.getOpenFileName(self, 'Proje Aç', '/home/' + un,
                                            'Hammer IDE Projeleri (*.hammer)',
                                            '', options)
 
