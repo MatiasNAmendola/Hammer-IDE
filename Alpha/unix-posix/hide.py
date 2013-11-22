@@ -7,6 +7,7 @@ import devtools # For Development
 
 import os
 import sys
+import imp
 import codes
 from getpass import getuser
 from functools import partial
@@ -24,19 +25,29 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         if os.name != 'posix':
             QMessageBox.warning(self, 'Uyarı!',
-            'Bu sürüm işletim sisteminiz ile uyumlu değil!')
+                                'Bu sürüm işletim sisteminiz ile uyumlu değil')
             sys.exit(0)
         
         self.mainTab.tabBar().hide()
         
         home = partial(self.show_tab, 0)
         editor = partial(self.show_tab, 1)
+
+        self.editors = []
+        self.project = '' 
+        self.openprojects = []
+        self.currentproject = ''
+
+        #self.test()
         
         self.homeB.clicked.connect(home)
         self.editorB.clicked.connect(editor)
         
         self.createB.clicked.connect(self.create_project_dialog)
-        
+        self.openB.clicked.connect(self.open_project_dialog)
+
+    def test(self):
+        pass
         
     def show_tab(self, index):
         self.mainTab.setCurrentIndex(index)
@@ -70,10 +81,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             pro.classL.hide()
             
         pro.adjustSize()
+        
         def set_dir():
             opt = QFileDialog.DontResolveSymlinks | QFileDialog.ShowDirsOnly
-            directory = QFileDialog.getExistingDirectory(pro,
-                'Proje Dizini', pro.dirL.text(), opt)
+            directory = QFileDialog.getExistingDirectory(pro, 'Proje Dizini',
+                                                         pro.dirL.text(), opt)
             if directory:
                 pro.dirL.setText(directory)
                 
@@ -93,70 +105,106 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             err = '<b>{} alfanümerik olmalıdır.</b><br><br>*alfanümerik: ' + \
             'işaretler ve boşluk dışındaki karakterleri içerir.'
             if not pro.nameL.text().isalnum():
-                QMessageBox.warning(pro, 'Hatalı Proje Adı', 
-                err.format('Proje adı'))
+                QMessageBox.warning(pro, 'Hatalı Proje Adı',
+                                    err.format('Proje adı'))
                 return
                 
             elif not pro.sourceL.text().isalnum():
-                QMessageBox.warning(pro, 'Hatalı Kaynak Dosyası Adı', 
-                err.format('Kaynak dosyası adı'))
+                QMessageBox.warning(pro, 'Hatalı Kaynak Dosyası Adı',
+                                    err.format('Kaynak dosyası adı'))
                 return
             
             dir = pro.dirL.text() + '/' + pro.nameL.text()
             try: # [mkdir]
                 os.mkdir(dir)
-                
             except FileExistsError:
                 print('Dosya var...')
-            
             except PermissionError:
                 QMessageBox.warning(pro, 'Hata!', 'Proje dosyası ' + \
                 'oluşturulamıyor. Lütfen erişim izni olan bir dizin seçin.')
                 return  
-              
             except Exception as err:
-                QMessageBox.warning(pro, 'Hata!', 'Bilinmeyen hata! Teknik'+\
-                ' destek için: <b>menü çubuğu -> yardım -> sorun bildir</b>'+\
-                ' yolunu izleyin.')
+                QMessageBox.warning(pro, 'Hata!', '''Bilinmeyen hata! Teknik
+ destek için: <b>menü çubuğu -> yardım -> sorun bildir</b> yolunu izleyin.''')
                 inf = ('Proje ismi:', pro.nameL.text(), '\nProje Dizini:',
-                pro.dirL.text(), '\nSınıf ismi:', pro.classL.text(),
-                '\nPencere Türü:', pro.wtBox.currentText(), 
-                '\nKomut Dosyası:', pro.sourceL.text())
+                       pro.dirL.text(), '\nSınıf ismi:', pro.classL.text(),
+                       '\nMiras:', pro.instL.text(), '\nPencere Türü:',
+                       pro.wtBox.currentText(), '\nKomut Dosyası:',
+                       pro.sourceL.text())
                 
                 self.log('Hata [mkdir]: ' + str(err),
-                '\n\nBilgi: {}'.format(inf))
+                         '\n\nBilgi: {}'.format(inf))
                 return         
-            
+
+            n1 = pro.sourceL.text() + '.py' # script name
+            p = pro.versionB.currentText() # version
+            v = '' if p.endswith('2') else '3'
             u = getuser() # user name
             c = pro.classL.text() # class name
-            i = pro.instL.text() # Instantiation
+            i = pro.instL.text() # instantiation
             w = pro.wtBox.currentText() # window type
-            file = dir + '/' + pro.sourceL.text()+'.py'
+            file = dir + '/' + n1
             with open(file, 'w', encoding = 'utf-8') as f:
                 if self.rb1.isChecked():
-                    code = codes.python.format(u)
+                    code = codes.python.format(v, u)
                 elif self.rb2.isChecked() and i == '':
-                    code = codes.python_class.format(u, c)
+                    code = codes.python_class.format(v, u, c)
                 elif self.rb2.isChecked():
-                    code = codes.python_class_inst.format(u, c, i, i)
+                    code = codes.python_class_inst.format(v, u, c, i, i)
                 elif self.rb3.isChecked():
-                    code = codes.pyside.format(u, w)
+                    code = codes.pyside.format(v, u, w)
                 else:
-                    code = codes.pyside_class.format(u, c, w, c, c)
+                    code = codes.pyside_class.format(v, u, c, w, c, c)
                     
                 f.write(code)
-            
+
+            n2 = pro.nameL.text() # project name
+            py3 = True if v == '3' else False
+            self.project = dir + '/' + n2 + '.hammer'
+            with open(self.project, 'w', encoding = 'utf-8') as f:
+                f.write(codes.hide_pro.format(n2, py3, n1, n1))
+
+            self.open_project()
             pro.close()
             
-        
         pro.dirL.textChanged.connect(check_state)
         pro.createB.clicked.connect(create_project)
         pro.dirB.clicked.connect(set_dir)
         pro.exec_()
 
+    def open_project(self):
+        self.currentproject = imp.load_source(self.project, self.project)
+        item = QTreeWidgetItem(self.trw)
+        item.setText(0, self.currentproject.project_name)
+        for file in self.currentproject.files:
+            child = QTreeWidgetItem()
+            child.setText(0, file)
+            item.addChild(child)
+
+        for file in self.currentproject.open_files:
+            tab = QWidget()
+            self.tw.addTab(tab, file)
+            te = QTextEdit(tab)
+            gl = QGridLayout(tab)
+            gl.addWidget(te, 0, 0)
+            self.editors.append(te)
+
+        self.mainTab.setCurrentIndex(1)
+        self.trw.setItemExpanded(item, True)
+    
+    def open_project_dialog(self):
+        options = QFileDialog.Options()
+        file = QFileDialog.getOpenFileName(self,'Proje Aç',self.label.text(),
+                                           'Hammer IDE Projeleri (*.hammer)',
+                                           '', options)
+
+        if file[0]:
+            self.project = file[0]
+            self.open_project()
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     win = MainWindow()
-    win.show()
+    win.showMaximized()
     sys.exit(app.exec_())

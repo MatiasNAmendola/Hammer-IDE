@@ -1,13 +1,13 @@
 __author__ = 'Muharrem Tayyip Yel'
 __version__ = 0.1
 
-python = """#!/usr/bin/env python3
+python = """#!/usr/bin/env python{}
 
 __author__ = "{}"
 
 """
 
-python_class = """#!/usr/bin/env python3
+python_class = """#!/usr/bin/env python{}
 
 __author__ = "{}"
 __version__ = 0.1
@@ -17,7 +17,7 @@ class {}(object):
         pass
 """
 
-python_class_inst = """#!/usr/bin/env python3
+python_class_inst = """#!/usr/bin/env python{}
 
 __author__ = "{}"
 __version__ = 0.1
@@ -28,7 +28,7 @@ class {}({}):
         pass
 """
 
-pyside = """#!/usr/bin/env python3
+pyside = """#!/usr/bin/env python{}
 
 __author__ = "{}"
 __version__ = 0.1
@@ -45,7 +45,7 @@ window.show()
 sys.exit(app.exec_()) 
 """
 
-pyside_class = """#!/usr/bin/env python3
+pyside_class = """#!/usr/bin/env python{}
 
 __author__ = "{}"
 __version__ = 0.1
@@ -64,4 +64,12 @@ if __name__ == '__main__':
     window = {}()
     window.show()
     sys.exit(app.exec_())
+"""
+
+hide_pro = """# Hammer IDE Project File
+
+project_name = "{}"
+python3 = {}
+files = ["{}"]
+open_files = ["{}"]
 """

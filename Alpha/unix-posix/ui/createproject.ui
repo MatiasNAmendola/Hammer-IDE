@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>410</width>
-    <height>344</height>
+    <height>370</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -19,7 +19,7 @@
   <property name="maximumSize">
    <size>
     <width>410</width>
-    <height>344</height>
+    <height>370</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -109,43 +109,56 @@
    </item>
    <item row="4" column="0" colspan="2">
     <layout class="QGridLayout" name="gridLayout">
-     <item row="8" column="1" colspan="6">
-      <widget class="Line" name="line_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+     <item row="6" column="5">
+      <widget class="QToolButton" name="dirB">
+       <property name="minimumSize">
+        <size>
+         <width>30</width>
+         <height>25</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>...</string>
        </property>
       </widget>
      </item>
-     <item row="7" column="2">
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Minimum</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
+     <item row="2" column="2" colspan="4">
+      <widget class="QLineEdit" name="classL">
+       <property name="minimumSize">
         <size>
-         <width>20</width>
-         <height>10</height>
+         <width>0</width>
+         <height>25</height>
         </size>
        </property>
-      </spacer>
+       <property name="maxLength">
+        <number>18</number>
+       </property>
+      </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QLabel" name="lbl1">
+     <item row="6" column="2" colspan="3">
+      <widget class="QLineEdit" name="dirL">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>25</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="1">
+      <widget class="QLabel" name="lbl5">
        <property name="styleSheet">
         <string notr="true"/>
        </property>
        <property name="text">
-        <string>Proje İsmi:</string>
+        <string>Kaynak Dosyası:</string>
        </property>
       </widget>
      </item>
-     <item row="6" column="2" colspan="4">
+     <item row="8" column="2" colspan="3">
       <widget class="QLineEdit" name="sourceL"/>
      </item>
-     <item row="9" column="0">
+     <item row="11" column="0">
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -161,66 +174,10 @@
        </property>
       </spacer>
      </item>
-     <item row="4" column="1">
-      <widget class="QLabel" name="lbl3">
-       <property name="text">
-        <string>Pencere Türü:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="6">
-      <widget class="QToolButton" name="dirB">
-       <property name="minimumSize">
-        <size>
-         <width>30</width>
-         <height>25</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>...</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="1">
-      <widget class="QLabel" name="lbl5">
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
-       <property name="text">
-        <string>Kaynak Dosyası:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="2" colspan="4">
-      <widget class="QLineEdit" name="dirL">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>25</height>
-        </size>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="2" colspan="5">
-      <widget class="QLineEdit" name="classL">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>25</height>
-        </size>
-       </property>
-       <property name="maxLength">
-        <number>18</number>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="1">
-      <widget class="QLabel" name="lbl4">
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
-       <property name="text">
-        <string>Proje Dizini:</string>
+     <item row="10" column="1" colspan="5">
+      <widget class="Line" name="line_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </item>
@@ -231,7 +188,7 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="2" colspan="5">
+     <item row="0" column="2" colspan="4">
       <widget class="QLineEdit" name="nameL">
        <property name="minimumSize">
         <size>
@@ -244,7 +201,57 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="2" colspan="5">
+     <item row="6" column="1">
+      <widget class="QLabel" name="lbl4">
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="text">
+        <string>Proje Dizini:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLabel" name="lbl3">
+       <property name="text">
+        <string>Pencere Türü:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="2">
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Maximum</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>150</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="lbl1">
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="text">
+        <string>Proje İsmi:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="5">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>.py</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="2" colspan="4">
       <widget class="QComboBox" name="wtBox">
        <property name="minimumSize">
         <size>
@@ -269,13 +276,6 @@
        </item>
       </widget>
      </item>
-     <item row="6" column="6">
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string>.py</string>
-       </property>
-      </widget>
-     </item>
      <item row="3" column="1">
       <widget class="QLabel" name="lbl2_2">
        <property name="text">
@@ -283,10 +283,7 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="2" colspan="5">
-      <widget class="QLineEdit" name="instL"/>
-     </item>
-     <item row="9" column="5" colspan="2">
+     <item row="11" column="4" colspan="2">
       <widget class="QPushButton" name="createB">
        <property name="enabled">
         <bool>false</bool>
@@ -302,7 +299,10 @@
        </property>
       </widget>
      </item>
-     <item row="9" column="4">
+     <item row="3" column="2" colspan="4">
+      <widget class="QLineEdit" name="instL"/>
+     </item>
+     <item row="11" column="3">
       <widget class="QPushButton" name="cancelB">
        <property name="minimumSize">
         <size>
@@ -313,6 +313,33 @@
        <property name="text">
         <string>İptal</string>
        </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Python Sürümü:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="2" colspan="4">
+      <widget class="QComboBox" name="versionB">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>30</height>
+        </size>
+       </property>
+       <item>
+        <property name="text">
+         <string>Python 3</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Python 2</string>
+        </property>
+       </item>
       </widget>
      </item>
     </layout>
@@ -329,5 +356,22 @@
   <tabstop>createB</tabstop>
  </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>cancelB</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>223</x>
+     <y>305</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>169</x>
+     <y>296</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
