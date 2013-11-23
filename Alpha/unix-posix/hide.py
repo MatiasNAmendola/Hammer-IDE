@@ -33,6 +33,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         home = partial(self.show_tab, 0)
         editor = partial(self.show_tab, 1)
 
+        self.dir = ''
         self.editors = []
         self.project = '' 
         self.openprojects = []
@@ -52,6 +53,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def show_tab(self, index):
         self.mainTab.setCurrentIndex(index)
         
+    def openw(self, file, write):
+        with open(file, 'w', encoding = 'utf-8') as f:
+            f.write(write)
+        
+    def openr(self, file, readlines):
+        with open(file, 'r', encoding = 'utf-8') as f:
+            read = f.readlines() if readlines else f.read()
+            return read
+    
     def log(self, exception, information):
         file = strftime('%Y-%m-%d %H:%M:%S', gmtime())
         log = exception + information
@@ -144,27 +154,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             c = pro.classL.text() # class name
             i = pro.instL.text() # instantiation
             w = pro.wtBox.currentText() # window type
-            file = dir + '/' + n1
-            with open(file, 'w', encoding = 'utf-8') as f:
-                if self.rb1.isChecked():
-                    code = codes.python.format(v, u)
-                elif self.rb2.isChecked() and i == '':
-                    code = codes.python_class.format(v, u, c)
-                elif self.rb2.isChecked():
-                    code = codes.python_class_inst.format(v, u, c, i, i)
-                elif self.rb3.isChecked():
-                    code = codes.pyside.format(v, u, w)
-                else:
-                    code = codes.pyside_class.format(v, u, c, w, c, c)
+            script = dir + '/' + n1
+            if self.rb1.isChecked():
+                code = codes.python.format(v, u)
+            elif self.rb2.isChecked() and i == '':
+                code = codes.python_class.format(v, u, c)
+            elif self.rb2.isChecked():
+                code = codes.python_class_inst.format(v, u, c, i, i)
+            elif self.rb3.isChecked():
+                code = codes.pyside.format(v, u, w)
+            else:
+                code = codes.pyside_class.format(v, u, c, w, c, c)
                     
-                f.write(code)
-
+            self.openw(script, code)
             n2 = pro.nameL.text() # project name
             py3 = True if v == '3' else False
             self.project = dir + '/' + n2 + '.hammer'
-            with open(self.project, 'w', encoding = 'utf-8') as f:
-                f.write(codes.hide_pro.format(n2, py3, n1, n1))
-
+            self.openw(self.project, codes.hide_pro.format(n2, py3, n1, n1))
             self.open_project()
             pro.close()
             
@@ -197,13 +203,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             gl = QGridLayout(tab)
             gl.addWidget(te, 0, 0)
             self.editors.append(te)
-        
+            te.setPlainText(self.openr(self.dir + file, False))
+            
         self.openprojects.append(self.project)
         
         self.editorB.setEnabled(True)
         self.mainTab.setCurrentIndex(1)
         self.trw.setItemExpanded(item, True)
-        print(self.openprojects)
     
     def open_project_dialog(self):
         un = getuser() # user name
@@ -214,6 +220,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         if file[0]:
             self.project = file[0]
+            self.dir = self.project[:self.project.rfind('/')] + '/'
             self.open_project()
 
 
