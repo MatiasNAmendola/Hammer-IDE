@@ -28,11 +28,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                                 'Bu sürüm işletim sisteminiz ile uyumlu değil')
             sys.exit(0)
         
-        self.mainTab.tabBar().hide()
-        
-        home = partial(self.show_tab, 0)
-        editor = partial(self.show_tab, 1)
-
         self.dir = ''
         self.editors = []
         self.project = '' 
@@ -40,10 +35,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.currentproject = ''
 
         #self.test()
+        self.mainTab.tabBar().hide()
+        
+        home = partial(self.show_tab, 0)
+        editor = partial(self.show_tab, 1)
         
         self.homeB.clicked.connect(home)
         self.editorB.clicked.connect(editor)
-        
         self.createB.clicked.connect(self.create_project_dialog)
         self.openB.clicked.connect(self.open_project_dialog)
 
@@ -67,6 +65,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         log = exception + information
         with open('./logs/' + file, 'w', encoding = 'utf-8') as f:
             f.write(log)
+            
+    def editor_skills(self): # FIXME
+        print('...', end = ' ')
         
     def create_project_dialog(self):
         loader = QUiLoader()
@@ -203,6 +204,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             gl = QGridLayout(tab)
             gl.addWidget(te, 0, 0)
             self.editors.append(te)
+            te.textChanged.connect(self.editor_skills)
             te.setPlainText(self.openr(self.dir + file, False))
             
         self.openprojects.append(self.project)
