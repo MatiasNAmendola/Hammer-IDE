@@ -66,6 +66,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         pro = loader.load(f, self)
         pro.lbl2_2.hide()
         pro.instL.hide()
+        
         if self.rb1.isChecked():
             pro.lbl2.hide()
             pro.lbl3.hide()
@@ -174,6 +175,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def open_project(self):
         self.currentproject = imp.load_source(self.project, self.project)
+        if self.project in self.openprojects:
+            self.editorB.setEnabled(True)
+            self.mainTab.setCurrentIndex(1)
+            message = '<b>{}</b> adlı proje zaten açık'
+            message = message.format(self.currentproject.project_name)
+            QMessageBox.critical(self, 'Hata!', message)
+            return
+        
         item = QTreeWidgetItem(self.trw)
         item.setText(0, self.currentproject.project_name)
         for file in self.currentproject.files:
@@ -188,9 +197,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             gl = QGridLayout(tab)
             gl.addWidget(te, 0, 0)
             self.editors.append(te)
-
+        
+        self.openprojects.append(self.project)
+        
+        self.editorB.setEnabled(True)
         self.mainTab.setCurrentIndex(1)
         self.trw.setItemExpanded(item, True)
+        print(self.openprojects)
     
     def open_project_dialog(self):
         un = getuser() # user name

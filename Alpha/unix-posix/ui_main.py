@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui/main.ui'
 #
-# Created: Sat Nov 23 00:05:40 2013
+# Created: Sat Nov 23 15:29:03 2013
 #      by: pyside-uic 0.2.14 running on PySide 1.1.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -33,6 +33,7 @@ class Ui_MainWindow(object):
         self.homeB.setObjectName("homeB")
         self.verticalLayout.addWidget(self.homeB)
         self.editorB = QtGui.QToolButton(self.centralwidget)
+        self.editorB.setEnabled(False)
         self.editorB.setMinimumSize(QtCore.QSize(45, 40))
         self.editorB.setMaximumSize(QtCore.QSize(45, 40))
         icon2 = QtGui.QIcon()
@@ -185,7 +186,7 @@ class Ui_MainWindow(object):
         self.gridLayout_4.addWidget(self.mainTab, 0, 1, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 855, 20))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 855, 25))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
 

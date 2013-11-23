@@ -55,6 +55,9 @@
       </item>
       <item>
        <widget class="QToolButton" name="editorB">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="minimumSize">
          <size>
           <width>45</width>
@@ -572,7 +575,7 @@
      <x>0</x>
      <y>0</y>
      <width>855</width>
-     <height>20</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>
