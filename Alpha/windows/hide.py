@@ -25,7 +25,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
-        if os.name != 'posix':
+        if os.name != 'nt':
             self.warning(self, 'Uyarı!', msgs.e1, '')
             sys.exit(0)
         
@@ -33,6 +33,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.project = '' 
         self.openprojects = []
         self.currentproject = ''
+        self.username = getuser()
+        self.userdir = os.path.expanduser("~").replace('\\', '\\\\')
 
         #self.test()
         self.mainTab.tabBar().hide()
@@ -92,8 +94,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             pass  
 
     def open_project_dialog(self):
-        un = getuser() # user name
-        file = QFileDialog.getOpenFileName(self, 'Proje Aç', '/home/' + un,
+        file = QFileDialog.getOpenFileName(self, 'Proje Aç', self.userdir,
                                            'Hammer IDE Projeleri (*.hammer)',
                                            '', QFileDialog.Options())
         if file[0]:
@@ -110,7 +111,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QMessageBox.critical(self, 'Hata!', message)
             return
 
-        dir = self.project[:self.project.rfind('/')] + '/'
+        self.project = self.project.replace('/', '\\')
+        dir = self.project[:self.project.rfind('\\')] + '\\'
         
         item = QTreeWidgetItem(self.trw)
         item.setText(0, self.currentproject.project_name)
@@ -185,7 +187,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 pro.createB.setEnabled(False)
         
         def create_project():
-            n1 = pro.sourceL.text() + '.py' # script name
+            n1 = pro.sourceL.text() # script name
             n2 = pro.nameL.text() # project name
             d = pro.dirL.text() # project directory
             s = pro.sourceL.text() # script name
@@ -194,9 +196,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             w = pro.wtBox.currentText() # window type
             p = pro.versionB.currentText() # version
             v, py3 = ['', False] if p.endswith('2') else ['3', True]
-            u = getuser() # user name
-            dir = d + '/' + n2
-            script = dir + '/' + n1
+            u = self.username # user name
+            dir = d + '\\' + n2
+            script = dir + '\\' + n1 + '.py'
             
             if not n2.isalnum():
                 self.warning(pro, 'Hatalı Proje Adı',
@@ -206,6 +208,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.warning(pro, 'Hatalı Kaynak Dosyası Adı',
                              msgs.w1.format('Kaynak dosyası adı'), '')
                 return
+
+            n1 += '.py'
             
             try: # [mkdir]
                 os.mkdir(dir)
@@ -232,7 +236,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 code = codes.pyside_class.format(v, u, c, w, c, c)
                     
             self.openw(script, code)
-            self.project = dir + '/' + n2 + '.hammer'
+            self.project = dir + '\\' + n2 + '.hammer'
             self.openw(self.project, codes.hide_pro.format(n2, py3, n1, n1))
             self.open_project()
             pro.close()
