@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui/main.ui'
 #
-# Created: Sat Nov 23 17:21:42 2013
+# Created: Sun Nov 24 12:31:14 2013
 #      by: pyside-uic 0.2.14 running on PySide 1.1.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -18,8 +18,8 @@ class Ui_MainWindow(object):
         MainWindow.setWindowIcon(icon)
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.gridLayout_4 = QtGui.QGridLayout(self.centralwidget)
-        self.gridLayout_4.setObjectName("gridLayout_4")
+        self.gridLayout_3 = QtGui.QGridLayout(self.centralwidget)
+        self.gridLayout_3.setObjectName("gridLayout_3")
         self.verticalLayout = QtGui.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
         self.homeB = QtGui.QToolButton(self.centralwidget)
@@ -73,7 +73,7 @@ class Ui_MainWindow(object):
         self.runB.setAutoRaise(True)
         self.runB.setObjectName("runB")
         self.verticalLayout.addWidget(self.runB)
-        self.gridLayout_4.addLayout(self.verticalLayout, 0, 0, 1, 1)
+        self.gridLayout_3.addLayout(self.verticalLayout, 0, 0, 1, 1)
         self.mainTab = QtGui.QTabWidget(self.centralwidget)
         self.mainTab.setTabPosition(QtGui.QTabWidget.South)
         self.mainTab.setTabShape(QtGui.QTabWidget.Triangular)
@@ -181,9 +181,12 @@ class Ui_MainWindow(object):
         self.trw.setSizePolicy(sizePolicy)
         self.trw.setMaximumSize(QtCore.QSize(300, 16777215))
         self.trw.setObjectName("trw")
-        self.gridLayout_2.addWidget(self.splitter, 0, 0, 1, 1)
+        self.gridLayout_2.addWidget(self.splitter, 1, 0, 1, 1)
         self.mainTab.addTab(self.tab_2, "")
-        self.gridLayout_4.addWidget(self.mainTab, 0, 1, 1, 1)
+        self.tab_3 = QtGui.QWidget()
+        self.tab_3.setObjectName("tab_3")
+        self.mainTab.addTab(self.tab_3, "")
+        self.gridLayout_3.addWidget(self.mainTab, 0, 1, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 855, 25))
@@ -216,4 +219,5 @@ class Ui_MainWindow(object):
         self.mainTab.setTabText(self.mainTab.indexOf(self.tab), QtGui.QApplication.translate("MainWindow", "Home", None, QtGui.QApplication.UnicodeUTF8))
         self.trw.headerItem().setText(0, QtGui.QApplication.translate("MainWindow", "Projeler", None, QtGui.QApplication.UnicodeUTF8))
         self.mainTab.setTabText(self.mainTab.indexOf(self.tab_2), QtGui.QApplication.translate("MainWindow", "Editor", None, QtGui.QApplication.UnicodeUTF8))
+        self.mainTab.setTabText(self.mainTab.indexOf(self.tab_3), QtGui.QApplication.translate("MainWindow", "Python", None, QtGui.QApplication.UnicodeUTF8))
 

@@ -1,3 +1,6 @@
+__author__ = 'Muharrem Tayyip Yel'
+__version__ = 0.1
+
 import os
 
 os.system('pyside-uic ui/main.ui > ui_main.py')
